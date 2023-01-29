@@ -71,10 +71,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     await update.message.reply_text("""
 Verwenden einen der folgenden Commands:
 /uebersetzen_ungarisch "Meine Nachricht"
-uebersetzen_deutsch "Meine Nachricht"
-korrigieren_deutsch "Meine Nachricht"
-umschreiben_deutsch "Meine Nachricht"
-chatgpt "bitte schreibe mir Ideen zu diesem Thema: Umweltverschmutzung"
+/uebersetzen_deutsch "Meine Nachricht"
+/korrigieren_deutsch "Meine Nachricht"
+/umschreiben_deutsch "Meine Nachricht"
+/chatgpt "bitte schreibe mir Ideen zu diesem Thema: Umweltverschmutzung"
 """)
 
 
