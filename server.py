@@ -10,6 +10,7 @@ load_dotenv()
 STATUS = os.getenv('STATUS')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 OPENAI_TOKEN = os.getenv('OPENAI_TOKEN')
+OPENAI_MODEL = os.getenv('OPENAI_MODEL')
 TELEGRAM_USERS = os.getenv('TELEGRAM_USERS')
 TELEGRAM_USERS = TELEGRAM_USERS.split(",")
 
@@ -20,7 +21,7 @@ openai.api_key = OPENAI_TOKEN
 def openai_api_call(msg,prefix=""):
     if not msg == "/chatgpt":
         response = openai.Completion.create(
-        engine="text-davinci-003",
+        engine=OPENAI_MODEL,
         prompt=prefix + msg,
         temperature=0.9,
          max_tokens=1048,
