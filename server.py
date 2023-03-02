@@ -3,7 +3,6 @@ import os
 from dotenv import load_dotenv
 import openai
 
-
 ################VENV#######################
 load_dotenv()
 
@@ -14,11 +13,18 @@ OPENAI_MODEL = os.getenv('OPENAI_MODEL')
 TELEGRAM_USERS = os.getenv('TELEGRAM_USERS')
 TELEGRAM_USERS = TELEGRAM_USERS.split(",")
 
+################LOGGING#######################
+# Enable logging
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+logger = logging.getLogger(__name__)
 
 ################OPENAI#######################
 openai.api_key = OPENAI_TOKEN
 
 def openai_api_call(msg):
+    logging.info('openai_api_call function called')
     if not msg == "/chatgpt":
         response = openai.ChatCompletion.create(
         model=OPENAI_MODEL,
@@ -50,12 +56,6 @@ if __version_info__ < (20, 0, 0, "alpha", 1):
 from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
-# Enable logging
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
-logger = logging.getLogger(__name__)
-
 # Define a few command handlers. These usually take the two arguments update and
 # context.
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -69,12 +69,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def hilfe_befehl(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /help is issued."""
+    logging.info('hilfe_befehl called')
     await update.message.reply_text("""
 /chatgpt "bitte schreibe mir Ideen zu diesem Thema: Umweltverschmutzung"
 """)
     
 async def chatgpt(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Sends Translate Request to OPENAI"""
+    logging.info('chat_id: ' + str(update.message.chat.id))
     if str(update.message.chat.id) in TELEGRAM_USERS:
         await update.message.reply_text(openai_api_call(update.message.text))
     else:
