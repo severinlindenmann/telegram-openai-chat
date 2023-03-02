@@ -18,19 +18,18 @@ TELEGRAM_USERS = TELEGRAM_USERS.split(",")
 ################OPENAI#######################
 openai.api_key = OPENAI_TOKEN
 
-def openai_api_call(msg,prefix=""):
+def openai_api_call(msg):
     if not msg == "/chatgpt":
-        response = openai.Completion.create(
-        engine=OPENAI_MODEL,
-        prompt=prefix + msg,
-        temperature=0.9,
-         max_tokens=1048,
-         top_p=1,
-         frequency_penalty=0.0,
-         presence_penalty=0.6,
+        response = openai.ChatCompletion.create(
+        model=OPENAI_MODEL,
+        messages=[      
+        {"role": "user", "content": msg},
+        ],
+        temperature=0,
         )
-        return response["choices"][0]["text"]
-    return "Verwenden den Befehl so: /chatgpt Mein Text"
+
+        return response["choices"][0]["message"]["content"]
+    return "Verwenden den Befehl so: /chatgpt Meine Frage"
     
 print("Running: %s" % STATUS)
 
